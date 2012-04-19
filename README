@@ -27,8 +27,13 @@ OR
 
 
 BUGS:
-no threading support yet
-no support for debugging vars, but expecting vars by runing rdebug commands
-works
+    - no threading support yet
+    - no support for debugging vars, but expecting vars by runing rdebug commands
+      works
+    - if exception traces are logged vim sometimes interpretes them as "execution
+      instruction" and jumps to that location.
+      A simple F6 (next instruction) will take you back
+    - probably this all is based on the wrong API - I should use what Eclipse,
+      netbeans etc are using (ruby-debug?) - but it works for me.
 
 support for multiple processes is started but not complete
