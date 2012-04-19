@@ -1,0 +1,17 @@
+minimal rdebug debugging support based on vim-addon-async
+
+usage:
+  AsyncRubyRDebug ruby file.rb
+  
+  You can pass input to debug process, see documentation of vim-addon-async
+
+What to expect?
+if you hit a line
+  require "debug"
+
+You can use F5,6 ... to control the debugger and vim will open the
+file and line where debugger stopped execution.
+
+BUGS:
+no threading support
+no var support yet

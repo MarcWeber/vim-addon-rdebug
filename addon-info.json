@@ -1,0 +1,12 @@
+{
+  "name" : "vim-addon-rdebug",
+  "author" : "Marc Weber <marco-oweber@gmx.de>",
+  "maintainer" : "Marc Weber <marco-oweber@gmx.de>",
+  "repository" : {"type": "git", "url": "git://github.com/MarcWeber/vim-addon-rdebug.git"},
+  "dependencies" : {
+    "vim-addon-async": {},
+    "vim-addon-signs": {},
+    "vim-addon-mw-utils": {}
+  },
+  "description" : "quick & dirty rdebug implementation"
+}
