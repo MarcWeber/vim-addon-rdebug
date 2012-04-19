@@ -11,11 +11,11 @@ sign define rdebug_breakpoint text=O   linehl=
 
 if !exists('*RDebugMappings')
   fun! RDebugMappings()
-     noremap <F5> :call g:rdebug.ctx.write("step\n")<cr>
-     noremap <F6> :call g:rdebug.ctx.write("next\n")<cr>
-     noremap <F7> :call g:rdebug.ctx.write("finish\n")<cr>
-     noremap <F8> :call g:rdebug.ctx.write("cont\n")|call SetCurr()<cr>
-     " noremap <F9> :XDbgToggleLineBreakpoint<cr>
+     noremap <F5> :call rdebug#Debugger("step")<cr>
+     noremap <F6> :call rdebug#Debugger("next")<cr>
+     noremap <F7> :call rdebug#Debugger("finish")<cr>
+     noremap <F8> :call rdebug#Debugger("cont")<cr>
+     noremap <F9> :call rdebug#Debugger("toggle_break_point")<cr>
      " noremap \xv :XDbgVarView<cr>
      " vnoremap \xv y:XDbgVarView<cr>GpV<cr>
   endf
