@@ -11,6 +11,20 @@ usage:
 
 If something doesn't work contact me
 
+installation:
+=============
+
+  get github.com/MarcWeber/vim-addon-manager, and add 'vim-addon-rdebug' to the
+  list of plugins to be activated on startup. Read its documention.
+  It also talks about alternative and references Vim's help file about what the
+  old way of installing plugins was.
+
+OR
+
+  use any other way and install this plugin along with the plugins mentioned in
+  the dependency section of ./addon-info.json (which all can be found on
+  github.com/MarcWeber).
+
 
 BUGS:
 no threading support yet
