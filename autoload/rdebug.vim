@@ -20,6 +20,7 @@ fun! rdebug#Setup(...)
   let s:c.active_ctx = s:c.next_ctx_nr
   let s:c.next_ctx_nr = 1
   call RDebugMappings()
+  call rdebug#UpdateBreakPoints()
 endf
 
 fun! rdebug#RubyBuffer(...)
@@ -104,6 +105,7 @@ fun! rdebug#Debugger(cmd, ...)
     call ctx.write(a:cmd."\n")
     if a:cmd == 'cont'
       unlet ctx.curr_pos
+      call rdebug#SetCurr()
     endif
   elseif a:cmd == 'toggle_break_point'
     call rdebug#ToggleLineBreakpoint()

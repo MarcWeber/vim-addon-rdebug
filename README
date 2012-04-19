@@ -9,6 +9,9 @@ usage:
 
   You can pass input to debug process, see documentation of vim-addon-async
 
+If something doesn't work contact me
+
+
 BUGS:
 no threading support yet
 no support for debugging vars, but expecting vars by runing rdebug commands
