@@ -117,7 +117,7 @@ endf
 let s:auto_break_end = '== break points end =='
 fun! rdebug#BreakPointsBuffer()
   let buf_name = "XDEBUG_BREAK_POINTS_VIEW"
-  let cmd = buf_utils#GotoBuf(buf_name, {'create':1} )
+  let cmd = buf_utils#GotoBuf(buf_name, {'create_cmd':'sp'} )
   if cmd == 'e'
     " new buffer, set commands etc
     let s:c.var_break_buf_nr = bufnr('%')
