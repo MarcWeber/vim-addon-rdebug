@@ -10,7 +10,7 @@ fun! rdebug#Setup(...)
     " TODO quoting?
     let cmd = join(a:000," ")
   else
-    let cmd = input('ruby command:')
+    let cmd = input('ruby command:', "ruby ".expand('%'))
   endif
   let ctx = rdebug#RubyBuffer({'cmd': 'socat "EXEC:'.cmd.',pty,stderr" -', 'move_last' : 1})
   let ctx.ctx_nr = s:c.next_ctx_nr
