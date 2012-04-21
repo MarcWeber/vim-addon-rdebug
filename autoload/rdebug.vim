@@ -12,7 +12,7 @@ fun! rdebug#Setup(...)
   else
     let cmd = input('ruby command:', "ruby ".expand('%'))
   endif
-  let ctx = rdebug#RubyBuffer({'cmd': 'socat "EXEC:'.cmd.',pty,stderr" -', 'move_last' : 1})
+  let ctx = rdebug#RubyBuffer({'buf_name' : 'RUBY_DEBUG_PROCESS', 'cmd': 'socat "EXEC:'.cmd.',pty,stderr" -', 'move_last' : 1})
   let ctx.ctx_nr = s:c.next_ctx_nr
   let ctx.vim_managed_breakpoints = []
   let ctx.next_breakpoint_nr = 1
@@ -48,17 +48,35 @@ fun! async_porcelaine#Receive2(...) dict
 
   let feed = []
   let s = ""
+  let m_cache = get(self,'m_cache',[])
+  let reg_rdb = '(rdb:\d'
+  let set_pos = "let self.curr_pos = {'filename':m[1], 'line': m[2]} | call rdebug#SetCurr(m[1], m[2])"
+
   " process complete lines
   for l in lines[0:-2]
     let m = matchlist(l, '^\([^:]\+\):\(\d\+\):')
     if len(m) > 0 && m[1] != ''
-      if filereadable(m[1])
-        let self.curr_pos = {'filename':m[1], 'line': m[2]}
-        call rdebug#SetCurr(m[1], m[2])
+      let m_cache = m
+    else
+      if !empty(m_cache) && l =~ reg_rdb
+        if filereadable(m[1])
+          exec set_pos
+        endif
       endif
+
+      let m_cache = []
     endif
     let s .= l."\n"
   endfor
+
+  if (!empty(m_cache)) && lines[-1] =~ reg_rdb
+    " if debugger halts at "(rdb:1) " waiting for more input it will not be a
+    " ful line thus not contained in "lines". catch this case
+    exec set_pos
+    let m_cache = []
+  endif
+  let self.m_cache = m_cache
+
   " keep rest of line
   let self.received_data = lines[-1]
 
@@ -129,6 +147,7 @@ fun! rdebug#BreakPointsBuffer()
           \ , 'you always have to add the file / class in Vim'
           \ , 'hit <cr> to send updated breakpoints to processes'
           \ ])
+    setlocal noswapfile
     " it may make sense storing breakpoints. So allow writing the breakpoints
     " buffer
     " set buftype=nofile
