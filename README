@@ -7,7 +7,7 @@ usage:
   add require 'debug' to your ruby project, then run:
   AsyncRubyRDebug ruby file.rb
 
-  Then you can use F4,F5, ... to step and set breakpoints
+  Then you can use F5,F6, ... to step and set breakpoints
   (see plugin/vim-addon-rdebug.vim)
 
   You can pass input to debug process, see documentation of vim-addon-async

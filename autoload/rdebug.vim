@@ -12,7 +12,7 @@ fun! rdebug#Setup(...)
   else
     let cmd = input('ruby command:', "ruby -rdebug ".expand('%'))
   endif
-  let ctx = rdebug#RubyBuffer({'buf_name' : 'RUBY_DEBUG_PROCESS', 'cmd': 'socat "EXEC:'.cmd.',pty,stderr" -', 'move_last' : 1})
+  let ctx = rdebug#RubyBuffer({'buf_name' : 'RUBY_DEBUG_PROCESS', 'cmd': 'socat "EXEC:"'.shellescape(cmd).'",pty,stderr" -', 'move_last' : 1})
   let ctx.ctx_nr = s:c.next_ctx_nr
   let ctx.vim_managed_breakpoints = []
   let ctx.next_breakpoint_nr = 1
