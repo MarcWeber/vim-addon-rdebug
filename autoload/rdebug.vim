@@ -10,7 +10,9 @@ fun! rdebug#Setup(...)
     " TODO quoting?
     let cmd = join(a:000," ")
   else
-    let cmd = input('ruby command:', "ruby -rdebug ".expand('%'))
+    let rdebug = search("require\\s\\+['\"]debug['\"]",'n') >= 0  ? "" : " -redebug "
+    let cmd = search('^\sdescribe\>') >= 0  ? "rspec" : "ruby"
+    let cmd = input('ruby command:', cmd." ".rdebug.expand('%'))
   endif
   let ctx = rdebug#RubyBuffer({'buf_name' : 'RUBY_DEBUG_PROCESS', 'cmd': 'socat "EXEC:"'.shellescape(cmd).'",pty,stderr" -', 'move_last' : 1})
   let ctx.ctx_nr = s:c.next_ctx_nr
