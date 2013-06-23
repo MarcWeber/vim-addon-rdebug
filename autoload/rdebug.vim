@@ -42,9 +42,9 @@ fun! rdebug#RubyBuffer(...)
 endf
 
 fun! rdebug#Receive(...) dict
-  call call(function('async_porcelaine#Receive2'), a:000, self)
+  call call(function('rdebug#Receive2'), a:000, self)
 endf
-fun! async_porcelaine#Receive2(...) dict
+fun! rdebug#Receive2(...) dict
   let self.received_data = get(self,'received_data','').a:1
   let lines = split(self.received_data,"\n",1)
 
