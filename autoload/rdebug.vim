@@ -1,6 +1,6 @@
 " exec vam#DefineAndBind('s:c','g:rdebug','{}')
 if !exists('g:rdebug') | let g:rdebug = {} | endif | let s:c = g:rdebug
-let s:c.ctxs = {}
+let s:c.ctxs = get(s:c, 'ctxs', {})
 let s:c.next_ctx_nr = get(s:c, 'ctx_nr', 1)
 
 " You can also run /bin/sh and use require 'debug' in your ruby scripts
@@ -10,7 +10,7 @@ fun! rdebug#Setup(...)
     " TODO quoting?
     let cmd = join(a:000," ")
   else
-    let rdebug = search("require\\s\\+['\"]debug['\"]",'n') >= 0  ? "" : " -redebug "
+    let rdebug = search("require\\s\\+['\"]debug['\"]",'n') >= 0  ? "" : " -rdebug "
     let cmd = search('^\sdescribe\>') > 0  ? "rspec" : "ruby"
     let cmd = input('ruby command:', cmd." ".rdebug.expand('%'))
   endif
@@ -52,16 +52,18 @@ fun! rdebug#Receive2(...) dict
   let s = ""
   let m_cache = get(self,'m_cache',[])
   let reg_rdb = '(rdb:\d'
-  let set_pos = "let self.curr_pos = {'filename':m[1], 'line': m[2]} | call rdebug#SetCurr(m[1], m[2])"
+  let set_pos = "let self.curr_pos = {'filename':m_cache[1], 'line': m_cache[2]} | call rdebug#SetCurr(m_cache[1], m_cache[2])"
 
   " process complete lines
   for l in lines[0:-2]
     let m = matchlist(l, '^\([^:]\+\):\(\d\+\):')
+    " without pty:
+    " let m = matchlist(l, '^(rdb:1) \([^:]\+\):\(\d\+\):')
     if len(m) > 0 && m[1] != ''
       let m_cache = m
     else
       if !empty(m_cache) && l =~ reg_rdb
-        if filereadable(m[1])
+        if filereadable(m_cache[1])
           exec set_pos
         endif
       endif
